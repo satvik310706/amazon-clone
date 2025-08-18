@@ -1,0 +1,146 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #131921;
+  color: white;
+  padding: 10px 20px;
+  flex-wrap: wrap;
+}
+
+.logo {
+  height: 40px;
+  cursor: pointer;
+}
+
+.nav-left,
+.nav-center,
+.nav-right {
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+}
+
+.search-input {
+  padding: 6px 12px;
+  width: 300px;
+  border-radius: 4px 0 0 4px;
+  border: none;
+}
+
+.search-button {
+  background-color: #febd69;
+  border: none;
+  padding: 7px 10px;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+}
+
+.nav-item {
+  margin-left: 15px;
+  cursor: pointer;
+  font-weight: bold;
+  color: white;
+}
+
+.nav-item:hover {
+  color: #febd69;
+}
+
+.content {
+  min-height: 70vh;
+  padding: 20px;
+}
+
+.footer {
+  background-color: #232f3e;
+  color: white;
+  padding: 20px;
+}
+
+.footer-top {
+  text-align: center;
+  padding: 10px 0;
+  background-color: #37475a;
+  cursor: pointer;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  padding: 20px 0;
+}
+
+.footer-column h4 {
+  margin-bottom: 10px;
+}
+
+.footer-column a {
+  display: block;
+  color: #ddd;
+  text-decoration: none;
+  margin-bottom: 5px;
+}
+
+.footer-bottom {
+  text-align: center;
+  padding: 10px;
+  border-top: 1px solid #444;
+}
+
+@media (max-width: 768px) {
+  .search-input {
+    width: 180px;
+  }
+
+  .nav-center {
+    flex: 1 1 100%;
+    justify-content: center;
+    margin: 10px 0;
+  }
+
+  .nav-left,
+  .nav-right {
+    flex: 1 1 100%;
+    justify-content: space-between;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .footer-column {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+}
+.top-nav {
+  background-color: #131921;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo img {
+  height: 35px;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.nav-actions a,
+.nav-actions button {
+  background: transparent;
+  border: none;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 1rem;
+}

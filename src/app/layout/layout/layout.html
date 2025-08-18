@@ -1,0 +1,56 @@
+<header class="header">
+    <div class="nav-left">
+        <img src="https://pngimg.com/uploads/amazon/amazon_PNG11.png" alt="Logo" class="logo" routerLink="/" />
+    </div>
+    <div class="nav-right">
+        <div *ngIf="isLoggedIn" class="nav-item" (click)="logout()">Logout</div>
+        <div *ngIf="isLoggedIn && isUser()" class="nav-item" (click)="goToCart()">
+            <i class="fa fa-shopping-cart"></i> Cart
+        </div>
+        <div *ngIf="isAdmin()" class="nav-item" routerLink="/admin">Admin Dashboard</div>
+        <div *ngIf="isDealer()" class="nav-item" routerLink="/dealer">Dealer Dashboard</div>
+        <div class="nav-item" routerLink="/profile"><img
+                src="https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2264922221.jpg"
+                alt="Logo" class="logo" />
+        </div>
+    </div>
+</header>
+
+<main class="content">
+    <router-outlet></router-outlet>
+</main>
+
+<footer class="footer">
+    <div class="footer-top">Welcome to Amazon Clone, {{ username }}! Shop and enjoy.</div>
+
+    <div class="footer-links">
+        <div class="footer-column">
+            <h4>Get to Know Us</h4>
+            <a>About Us</a>
+            <a>Careers</a>
+            <a>Press Releases</a>
+        </div>
+        <div class="footer-column">
+            <h4>Connect with Us</h4>
+            <a>Facebook</a>
+            <a>Twitter</a>
+            <a>Instagram</a>
+        </div>
+        <div class="footer-column">
+            <h4>Make Money with Us</h4>
+            <a>Sell on Amazon</a>
+            <a>Affiliate Program</a>
+        </div>
+        <div class="footer-column">
+            <h4>Let Us Help You</h4>
+            <a>Your Account</a>
+            <a>Returns</a>
+            <a>Help</a>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <img src="https://pngimg.com/uploads/amazon/amazon_PNG11.png" alt="Logo" class="logo" />
+        <p>&copy; 2025 Amazon Clone by Satvik</p>
+    </div>
+</footer>

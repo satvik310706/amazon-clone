@@ -1,0 +1,24 @@
+<div class="dashboard-container">
+    <h2 class="heading">Welcome to the Amazon Clone</h2>
+
+    <div class="filters">
+        <input type="text" [(ngModel)]="searchQuery" (input)="filterProducts()" placeholder="🔍 Search products..." />
+        <select [(ngModel)]="selectedCategory" (change)="filterProducts()">
+            <option value="">All Categories</option>
+            <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+        </select>
+    </div>
+
+    <div class="products-grid">
+        <div class="product-card" *ngFor="let product of filteredProducts">
+            <img [src]="product.image_url" alt="{{ product.title }}" />
+            <h4>{{ product.title }}</h4>
+            <p class="price">₹{{ product.price }}</p>
+            <button (click)="onAddToCart(product)">Add to Cart</button>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <a routerLink="/orders" class="btn go-to-orders">🛒 View Orders</a>
+    </div>
+</div>

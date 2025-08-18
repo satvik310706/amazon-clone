@@ -1,0 +1,22 @@
+<div *ngIf="error" class="error">
+    ⚠️ {{ error }}
+</div>
+<h2>Your Orders</h2>
+
+<div *ngFor="let order of orders" class="order-card">
+    <h3>🧾 Order ID: {{ order._id }}</h3>
+    <p><strong>Placed on:</strong> {{ getFormattedDate(order.created_at) }}</p>
+    <p><strong>Total Price:</strong> ₹{{ order.total_price }}</p>
+
+    <ul class="item-list">
+        <li *ngFor="let item of order.items">
+            🛍️ <strong>{{ item.title }}</strong> - ₹{{ item.price }} × {{ item.quantity }}
+            = ₹{{ item.item_total }}
+        </li>
+    </ul>
+</div>
+<a routerLink="/user" class="btn back-btn">⬅ Back to Products</a>
+<!-- When no orders -->
+<div *ngIf="orders && orders.length === 0 && !error">
+    🛒 No orders found.
+</div>

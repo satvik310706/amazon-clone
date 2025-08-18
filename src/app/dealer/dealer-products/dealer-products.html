@@ -1,0 +1,39 @@
+<h2 class="page-heading">🛍️ Dealer Products</h2>
+
+<div *ngIf="loading" class="spinner-container">
+    <div class="spinner"></div>
+    <p>Loading products...</p>
+</div>
+
+<!-- Add Product Form -->
+<div class="product-form add-form">
+    <h3>➕ Add New Product</h3>
+    <input [(ngModel)]="newProduct.title" placeholder="Title" required />
+    <input [(ngModel)]="newProduct.price" placeholder="Price" type="number" min="1" required />
+    <input [(ngModel)]="newProduct.quantity" placeholder="Quantity" type="number" min="1" required />
+    <input [(ngModel)]="newProduct.category" placeholder="Category" required />
+    <input [(ngModel)]="newProduct.image_url" placeholder="Image URL" required />
+    <textarea [(ngModel)]="newProduct.description" placeholder="Description" required></textarea>
+    <button (click)="createProduct()">✅ Add Product</button>
+</div>
+
+<!-- Existing Products List -->
+<div class="product-list">
+    <h3>🛠️ Update or Delete Products</h3>
+    <div *ngFor="let p of products" class="product-card">
+        <img [src]="p.image_url" alt="Product" class="product-img" />
+        <div class="product-fields">
+            <input [(ngModel)]="p.title" placeholder="Title" />
+            <input [(ngModel)]="p.price" type="number" placeholder="Price" />
+            <input [(ngModel)]="p.quantity" type="number" placeholder="Quantity" />
+            <input [(ngModel)]="p.category" placeholder="Category" />
+            <input [(ngModel)]="p.image_url" placeholder="Image URL" />
+            <textarea [(ngModel)]="p.description" placeholder="Description"></textarea>
+            <div class="btn-group">
+                <button (click)="updateProduct(p)">✏️ Update</button>
+                <button (click)="deleteProduct(p._id)">🗑️ Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+<a routerLink="/dealer/dashboard" class="back-button">‹ Back</a>

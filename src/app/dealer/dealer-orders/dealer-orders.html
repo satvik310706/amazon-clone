@@ -1,0 +1,29 @@
+<div class="dealer-orders-container">
+    <h2>📦 Dealer Orders</h2>
+
+    <div *ngIf="loading" class="spinner-container">
+        <div class="spinner"></div>
+        <p>Loading orders...</p>
+    </div>
+
+    <div *ngIf="orders.length === 0" class="empty">
+        No orders found.
+    </div>
+
+    <div *ngFor="let order of orders" class="order-card">
+        <div class="order-header">
+            🆔 <strong>Order ID:</strong> {{ order._id }}<br />
+            👤 <strong>User:</strong> {{ order.user_id }}<br />
+            💰 <strong>Total:</strong> ₹{{ order.total_price }}<br />
+            🕒 <strong>Date:</strong> {{ order.created_at | date:'short' }}
+        </div>
+
+        <div class="order-items">
+            <div *ngFor="let item of order.items" class="order-item">
+                🛒 <strong>{{ item.title }}</strong> × {{ item.quantity }} = ₹{{ item.item_total }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<a routerLink="/dealer/dashboard" class="back-button">‹ Back</a>

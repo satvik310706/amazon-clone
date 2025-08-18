@@ -1,0 +1,77 @@
+<div class="admin-container">
+    <nav>
+        <button (click)="switchTab('stats')" [class.active]="currentTab === 'stats'">📊 Stats</button>
+        <button (click)="switchTab('users')" [class.active]="currentTab === 'users'">👥 Users</button>
+        <button (click)="switchTab('products')" [class.active]="currentTab === 'products'">🛍 Products</button>
+    </nav>
+    <div *ngIf="loading" class="loading">Loading...</div>
+
+    <div *ngIf="currentTab === 'stats' && stats" class="stats-grid">
+        <div class="stat-box">
+            <h3>Total Users</h3>
+            <p>{{ stats.total_users }}</p>
+        </div>
+        <div class="stat-box">
+            <h3>Total Products</h3>
+            <p>{{ stats.total_products }}</p>
+        </div>
+        <div class="stat-box">
+            <h3>Total Orders</h3>
+            <p>{{ stats.total_orders }}</p>
+        </div>
+    </div>
+
+    <div *ngIf="currentTab === 'users'">
+        <h2>User Management</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of users">
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.role }}</td>
+                    <td><button class="delete-btn" (click)="deleteUser(user._id)">🗑 Delete</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="currentTab === 'products'">
+        <h2>Product Management</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Title</th>
+                    <th>Price</th>
+                    <th>Qty</th>
+                    <th>Category</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let product of products">
+                    <td><img [src]="product.image_url" alt="img" class="thumb" /></td>
+                    <td *ngIf="editMode !== product._id">{{ product.title }}</td>
+                    <td *ngIf="editMode === product._id"><input [(ngModel)]="editedProduct.title" /></td>
+
+                    <td *ngIf="editMode !== product._id">{{ product.price }}</td>
+                    <td *ngIf="editMode === product._id"><input [(ngModel)]="editedProduct.price" type="number" /></td>
+
+                    <td *ngIf="editMode !== product._id">{{ product.quantity }}</td>
+                    <td *ngIf="editMode === product._id"><input [(ngModel)]="editedProduct.quantity" type="number" />
+                    </td>
+
+                    <td *ngIf="editMode !== product._id">{{ product.category }}</td>
+                    <td *ngIf="editMode === product._id"><input [(ngModel)]="editedProduct.category" /></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

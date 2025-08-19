@@ -98,7 +98,6 @@ export class Dashboard implements OnInit {
         },
         error: (err) => {
           console.error('❌ Add to cart error:', err);
-          this.toast.error('Failed to add to cart ❌', 'Error');
           this.router.navigate(['/cart']);
         }
       });

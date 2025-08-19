@@ -4,7 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChangeDetectorRef } from '@angular/core';
-import { ToastrService, ToastrModule } from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,39 +19,50 @@ export class Dashboard implements OnInit {
   categories: string[] = [];
   selectedCategory = '';
   searchQuery = '';
-
-  // New state variable to show/hide the loader
   isLoading: boolean = true;
 
-  cdr = inject(ChangeDetectorRef);
-  http = inject(HttpClient);
-  router = inject(Router);
-  zone = inject(NgZone);
-  toast = inject(ToastrService);
+  private cdr = inject(ChangeDetectorRef);
+  private http = inject(HttpClient);
+  private router = inject(Router);
+  private zone = inject(NgZone);
+  private toast = inject(ToastrService);
 
-  apiUrl = 'https://amazon-clone-fastapi.onrender.com/products';
+  private apiUrl = 'https://amazon-clone-fastapi.onrender.com/products';
+
+  // ✅ Static cache to persist products across component instances
+  private static productsCache: any[] | null = null;
 
   ngOnInit(): void {
-    // Set loading to true before the API call
     this.isLoading = true;
-    this.http.get<any[]>(this.apiUrl).subscribe({
-      next: (res) => {
-        this.zone.run(() => {
-          this.products = res;
-          this.filteredProducts = [...res];
-          this.categories = Array.from(new Set(res.map(p => p.category)));
-          this.cdr.detectChanges();
-          // Set loading to false on success
+
+    if (Dashboard.productsCache) {
+      // ✅ Use cached data if available
+      this.products = Dashboard.productsCache;
+      this.filteredProducts = [...Dashboard.productsCache];
+      this.categories = Array.from(new Set(Dashboard.productsCache.map(p => p.category)));
+      this.isLoading = false;
+      this.cdr.detectChanges();
+    } else {
+      // ✅ Fetch from API if cache is empty
+      this.http.get<any[]>(this.apiUrl).subscribe({
+        next: (res) => {
+          this.zone.run(() => {
+            this.products = res;
+            this.filteredProducts = [...res];
+            this.categories = Array.from(new Set(res.map(p => p.category)));
+            // store in static cache
+            Dashboard.productsCache = res;
+            this.isLoading = false;
+            this.cdr.detectChanges();
+          });
+        },
+        error: (err) => {
+          console.error('❌ Error fetching products:', err);
+          this.toast.error('Failed to fetch products ❌', 'Error');
           this.isLoading = false;
-        });
-      },
-      error: (err) => {
-        console.error('❌ Error fetching products:', err);
-        this.toast.error('Failed to fetch products ❌', 'Error');
-        // Set loading to false on error
-        this.isLoading = false;
-      }
-    });
+        }
+      });
+    }
   }
 
   filterProducts(): void {
@@ -74,17 +85,12 @@ export class Dashboard implements OnInit {
     }
 
     const productId = product.id || product._id?.$oid || product._id;
-
     if (!productId) {
       this.toast.error('❌ Invalid product ID', 'Error');
       return;
     }
 
-    const body = {
-      product_id: productId,
-      quantity: 1
-    };
-
+    const body = { product_id: productId, quantity: 1 };
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'

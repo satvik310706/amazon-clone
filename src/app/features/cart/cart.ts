@@ -54,6 +54,7 @@ export class Cart implements OnInit {
       next: () => {
         this.toastr.info('Item removed from cart', 'Removed');
         this.loadCart();
+        this.cdRef.detectChanges();
       },
       error: () => {
         this.toastr.error('Failed to remove item from cart', 'Error');
@@ -72,6 +73,7 @@ export class Cart implements OnInit {
       next: () => {
         this.toastr.success('Quantity updated', 'Success');
         this.loadCart();
+        this.cdRef.detectChanges();
       },
       error: () => {
         this.toastr.error('Failed to update quantity', 'Error');
@@ -89,6 +91,7 @@ export class Cart implements OnInit {
 
   goToDashboard() {
     this.router.navigate(['/user']);
+
   }
 
   proceedToCheckout(): void {
@@ -103,7 +106,7 @@ export class Cart implements OnInit {
       console.error("Cart Items:", this.cartItems);
       return;
     }
-
+    this.cdRef.detectChanges();
     this.loading = true;
     this.cs.checkoutCart().subscribe({
       next: (res: any) => {
